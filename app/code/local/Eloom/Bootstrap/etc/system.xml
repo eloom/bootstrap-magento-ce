@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <eloom translate="label" module="eloombootstrap">
+            <label>élOOm</label>
+            <sort_order>1001</sort_order>
+        </eloom>
+    </tabs>
+</config>

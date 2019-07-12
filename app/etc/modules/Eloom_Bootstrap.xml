@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Eloom_Bootstrap>
+            <active>true</active>
+            <codePool>local</codePool>
+            <version>##eloom.versao##</version>
+        </Eloom_Bootstrap>
+    </modules>
+</config>

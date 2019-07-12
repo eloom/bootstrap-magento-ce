@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="eloom" basedir=".">
+  <property file="${basedir}/build.properties" />
+  <property file="${basedir}/build-${ambiente}.properties" />
+  <property file="${basedir}/licenca.properties" />
+    
+  <property name="compilacao" value="${basedir}/compilacao" />
+    
+  <target name="init-ant-contrib">
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+      <classpath>
+        <pathelement location="${basedir}/tmp/lib/ant-contrib-1.0b3.jar" />
+      </classpath>
+    </taskdef>
+  </target>
+    
+  <target name="_preparar">
+    <mkdir dir="${compilacao}"/>
+    <mkdir dir="${compilacao}/app"/>
+    <mkdir dir="${compilacao}/js"/>
+    <mkdir dir="${compilacao}/lib"/>
+    <mkdir dir="${compilacao}/media"/>
+    <mkdir dir="${compilacao}/skin"/>
+  </target>
+    
+  <target name="_mover-fontes">
+    <copy todir="${compilacao}/app">
+      <fileset dir="${basedir}/app">
+        <include name="**/*"/>
+        <exclude name="**/*.svn" />
+      </fileset>
+    </copy>
+    <copy todir="${compilacao}/js">
+      <fileset dir="${basedir}/js">
+        <include name="**/*.js"/>
+        <exclude name="**/*.svn" />
+      </fileset>
+    </copy>
+    <copy todir="${compilacao}/lib">
+      <fileset dir="${basedir}/lib">
+        <include name="**/*"/>
+        <exclude name="**/*.svn" />
+      </fileset>
+    </copy>
+    <copy todir="${compilacao}/media">
+      <fileset dir="${basedir}/media">
+        <include name="**/*"/>
+        <exclude name="**/*.svn" />
+      </fileset>
+    </copy>
+    <copy todir="${compilacao}/skin">
+      <fileset dir="${basedir}/skin">
+        <include name="**/*"/>
+        <exclude name="**/*.svn" />
+      </fileset>
+    </copy>
+  </target>
+    
+  <target name="_atualizar-licenca">
+    <replace dir="${compilacao}" value="${licenca}">
+      <include name="**/*.php"/>
+      <replacefilter token="##eloom.licenca##" />
+    </replace>
+  </target>
+    
+  <target name="_atualizar-versao">
+    <replace dir="${compilacao}" value="${eloom.versao}">
+      <include name="**/*.xml"/>
+      <include name="**/*.php"/>
+      <replacetoken>##eloom.versao##</replacetoken>
+    </replace>
+  </target>
+    
+  <target name="_limpar-fontes">
+    <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${compilacao}" includes="**/*"/>
+    </delete>
+  </target>
+    
+  <target name="_limpar-cache">
+    <echo>Removendo ${projetos.path}/${magento.versao}${magento.cache.diretorio}</echo>
+    <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${projetos.path}/${magento.versao}${magento.cache.diretorio}" includes="**/*"/>
+    </delete>
+  </target>
+    
+  <target name="_limpar-sessao">
+    <echo>Removendo ${projetos.path}/${magento.versao}${magento.session.diretorio}</echo>
+    <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${projetos.path}/${magento.versao}${magento.session.diretorio}" includes="**/*"/>
+    </delete>
+  </target>
+
+  <target name="_preparar-fontes">
+    <antcall target="_limpar-fontes" />
+    <antcall target="_preparar" />
+    <antcall target="_mover-fontes" />
+    <antcall target="_atualizar-licenca" />
+    <antcall target="_atualizar-versao" />
+  </target>
+    
+  <target name="_pre-instalar-modulo">
+    <ant antfile="build-${modulo}.xml" target="_pre-instalar-modulo">
+      <property name="compilacao" value="${compilacao}" />
+    </ant>
+  </target>
+    
+  <target name="init" depends="init-ant-contrib" />
+    
+  <target name="_remover-modulo-publicado" depends="init">
+    <foreach list="${diretorios}" param="diretorio" delimiter="," target="_remover-diretorio-publicado" />
+        
+    <foreach list="${arquivos}" param="arquivo" delimiter="," target="_remover-arquivo-publicado" />
+  </target>
+
+  <target name="_remover-diretorio-publicado">
+    <echo>Removendo ${diretorio}</echo>
+    <delete includeemptydirs="true" failonerror="false">
+      <fileset dir="${projetos.path}/${magento.versao}${diretorio}" includes="**/*"/>
+    </delete>
+  </target>
+
+  <target name="_remover-arquivo-publicado">
+    <delete file="${projetos.path}/${magento.versao}${arquivo}" failonerror="false" />
+  </target>
+        
+  <target name="_copiar-modulo" depends="init">
+    <foreach list="${diretorios}" param="diretorio" delimiter="," target="_copiar-diretorio-a-publicar" />
+        
+    <foreach list="${arquivos}" param="arquivo" delimiter="," target="_copiar-arquivo-a-publicar" />
+  </target>
+    
+  <target name="_copiar-diretorio-a-publicar">
+    <echo>Copiando: ${diretorio}</echo>
+    <copy todir="${projetos.path}/${magento.versao}${diretorio}">
+      <fileset dir="${compilacao}/${diretorio}" includes="**/*" />
+    </copy>
+  </target>
+    
+  <target name="_copiar-arquivo-a-publicar">
+    <echo>Copiar: ${compilacao}/${arquivo}</echo>
+    <copy file="${compilacao}/${arquivo}" 
+              tofile="${projetos.path}/${magento.versao}${arquivo}" 
+              overwrite="true" 
+              failonerror="false" />
+  </target>
+    
+  <target name="_compactar-todos-js-css">
+    <echo>Compactando todos os javascripts</echo>
+    <foreach list="${arquivos}" param="arquivo" delimiter="," target="_compactar-js-css" />
+  </target>
+    
+  <target name="_compactar-js-css" depends="init">
+    <property name="toFile" value="${compilacao}/${arquivo}-min" />
+    <echo>Compactando javascript: ${compilacao}/${arquivo}</echo>
+    <java jar="${basedir}/tmp/lib/yuicompressor-2.4.8.jar" fork="true">
+      <arg line="${compilacao}/${arquivo} -o ${toFile} --charset utf-8" />
+    </java>
+        
+    <delete file="${compilacao}/${arquivo}" failonerror="false" />
+    <copy file="${toFile}" tofile="${compilacao}/${arquivo}" />
+    <delete file="${toFile}" failonerror="false" />
+  </target>
+</project>

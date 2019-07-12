@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="eloom" basedir="." default="instalar">
+    <property file="${basedir}/build.properties" />
+    <property file="${basedir}/build-test.properties" />
+    
+    <target name="init-ant-contrib">
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+            <classpath>
+                <pathelement location="${basedir}/tmp/lib/ant-contrib-1.0b3.jar" />
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="instalar" depends="init-ant-contrib">
+        <antcall target="remover" />
+        
+        <ant antfile="build.xml" target="_preparar-fontes" />
+        
+        <foreach list="${eloom.modulos}" param="modulo" delimiter="," target="_pre-instalar-modulo" />
+        
+        <foreach list="${eloom.modulos}" param="modulo" delimiter="," target="_instalar" />
+        
+        <ant antfile="build.xml" target="_limpar-cache">
+            <property name="ambiente" value="test" />
+        </ant>
+        
+        <ant antfile="build.xml" target="_limpar-sessao">
+            <property name="ambiente" value="test" />
+        </ant>
+        
+        <ant antfile="build.xml" target="_limpar-fontes" />
+    </target>
+    
+    <target name="_pre-instalar-modulo">
+        <ant antfile="build.xml" target="_pre-instalar-modulo">
+            <property name="ambiente" value="desenv" />
+            <property name="modulo" value="${modulo}" />
+        </ant>
+    </target>
+    
+    <target name="_instalar">
+        <ant antfile="build-${modulo}.xml" target="remover">
+            <property name="ambiente" value="test" />
+        </ant>
+        <ant antfile="build-${modulo}.xml" target="instalar">
+            <property name="ambiente" value="test" />
+        </ant>
+    </target>
+    
+    <target name="remover" depends="init-ant-contrib">
+        <foreach list="${eloom.modulos}" param="modulo" delimiter="," target="_remover" />
+        
+        <ant antfile="build.xml" target="_limpar-cache">
+            <property name="ambiente" value="test" />
+        </ant>
+    </target>
+    
+    <target name="_remover">
+        <ant antfile="build-${modulo}.xml" target="remover">
+            <property name="ambiente" value="test" />
+        </ant>
+    </target>
+</project>

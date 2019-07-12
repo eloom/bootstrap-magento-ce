@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Eloom_Payment>
+      <version>##eloom.versao##</version>
+    </Eloom_Payment>
+  </modules>
+  
+  <global>
+    <models>
+      <eloom_payment>
+        <class>Eloom_Payment_Model</class>
+      </eloom_payment>
+    </models>
+    <helpers>
+      <eloom_payment>
+        <class>Eloom_Payment_Helper</class>
+      </eloom_payment>
+    </helpers>
+    <blocks>
+      <eloom_payment>
+        <class>Eloom_Payment_Block</class>
+      </eloom_payment>
+    </blocks>
+  </global>
+
+  <frontend>
+    <layout>
+      <updates>
+        <eloom_payment>
+          <file>eloom/local.xml</file>
+        </eloom_payment>
+      </updates>
+    </layout>
+  </frontend>
+</config>

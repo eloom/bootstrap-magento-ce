@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<checkout_onepage_success translate="label">
+		<reference name="content">
+			<block type="eloom_payment/onepage_success" name="checkout.success" template="checkout/success.phtml">
+				<block type="eloom_payment/onepage_success_details" name="success.details" as="details"/>
+			</block>
+		</reference>
+	</checkout_onepage_success>
+</layout>

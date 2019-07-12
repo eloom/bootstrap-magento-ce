@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Eloom_Payment>
+      <active>true</active>
+      <codePool>local</codePool>
+      <version>##eloom.versao##</version>
+    </Eloom_Payment>
+  </modules>
+</config>
