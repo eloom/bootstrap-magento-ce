@@ -1,0 +1,53 @@
+<?php
+
+
+class Eloom_LVR_Cards_AmericanExpress extends Eloom_LVR_Cards_Card implements Eloom_LVR_Contracts_CreditCard {
+	/**
+	 * Regular expression for card number recognition.
+	 *
+	 * @var string
+	 */
+	public static $pattern = '/^3[47][0-9]/';
+
+	/**
+	 * Credit card type.
+	 *
+	 * @var string
+	 */
+	protected $type = 'credit';
+
+	/**
+	 * Credit card name.
+	 *
+	 * @var string
+	 */
+	protected $name = 'amex';
+
+	/**
+	 * Brand name.
+	 *
+	 * @var string
+	 */
+	protected $brand = 'American Express';
+
+	/**
+	 * Card number length's.
+	 *
+	 * @var array
+	 */
+	protected $number_length = [15];
+
+	/**
+	 * CVC code length's.
+	 *
+	 * @var array
+	 */
+	protected $cvc_length = [3, 4];
+
+	/**
+	 * Test cvc code checksum against Luhn algorithm.
+	 *
+	 * @var bool
+	 */
+	protected $checksum_test = true;
+}

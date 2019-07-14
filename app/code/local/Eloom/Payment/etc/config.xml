@@ -32,5 +32,26 @@
         </eloom_payment>
       </updates>
     </layout>
+    <translate>
+      <modules>
+        <Eloom_Bootstrap>
+          <files>
+            <default>Eloom_Payment.csv</default>
+          </files>
+        </Eloom_Bootstrap>
+      </modules>
+    </translate>
   </frontend>
+
+  <adminhtml>
+    <translate>
+      <modules>
+        <Eloom_Bootstrap>
+          <files>
+            <default>Eloom_Payment.csv</default>
+          </files>
+        </Eloom_Bootstrap>
+      </modules>
+    </translate>
+  </adminhtml>
 </config>

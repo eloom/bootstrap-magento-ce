@@ -1,0 +1,10 @@
+#-- V
+"validation.credit_card.card_cvc_invalid","Código de segurança do cartão de crédito é inválido."
+"validation.credit_card.card_expiration_date_invalid","Data de expiração do cartão de crédito é inválida."
+"validation.credit_card.card_expiration_date_format_invalid","Data de expiração do cartão de crédito é inválida."
+"validation.credit_card.card_expiration_month_invalid","Data de expiração do cartão de crédito é inválida."
+"validation.credit_card.card_invalid","Cartão de crédito é inválido."
+"validation.credit_card.card_pattern_invalid","Cartão de crédito é inválido."
+"validation.credit_card.card_length_invalid","Cartão de crédito é inválido."
+"validation.credit_card.card_checksum_invalid","Cartão de crédito é inválido."
+"validation.credit_card.card_expiration_year_invalid","Data de expiração do cartão de crédito é inválida."
