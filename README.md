@@ -40,10 +40,21 @@ PHP/PHP-FPM 5.6
 	> A tarefa Ant irá gerar um pacote no formato .zip, no caminho definido na propriedade "projetos.path", do arquivo **build-producao.properties**.
 
 
-### Release Notes
+## Release Notes
 
-1.0.0 - Lançamento
+### [1.0.0]
 
-1.0.4 - Added: Suporte aos blocos de totais para todos os Métodos de Pagamento da élOOm.
+#### Versão inicial
 
-1.0.5 - Added: Suporte ao Método de Pagamento Yapay.
+
+### [1.0.4]
+
+#### Added
+
+- suporte aos blocos de totais para todos os Métodos de Pagamento da élOOm.
+
+### [1.0.5]
+
+#### Added
+
+- suporte ao Método de Pagamento Yapay.
