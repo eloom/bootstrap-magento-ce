@@ -99,6 +99,15 @@ class Eloom_Payment_Block_Adminhtml_Sales_Order_Invoice_Totals extends Mage_Admi
 				'label' => Mage::helper('eloom_yapay')->__('Interest'))), 'grand_total');
 		}
 
+		$amt = $this->getSource()->getPagarmev5InterestAmount();
+		if ($amt != 0) {
+			$this->addTotalBefore(new Varien_Object(array(
+				'code' => 'pagarmev5_interest',
+				'value' => $amt,
+				'base_value' => $this->getSource()->getPagarmev5BaseInterestAmount(),
+				'label' => Mage::helper('pagarmev5_creditcard')->__('Interest'))), 'grand_total');
+		}
+
 		return $this;
 	}
 
